@@ -1,14 +1,11 @@
 package localgroup.employeeweb.rest;
 
-import localgroup.employeeweb.dto.Employee;
+import localgroup.employeeweb.entity.Employee;
 import localgroup.employeeweb.exception.EmployeeNotFoundException;
 import localgroup.employeeweb.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -38,8 +35,8 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    @GetMapping("/employee/{id}")
-    public ModelAndView getEmployeeById(@PathVariable("id") int id) throws EmployeeNotFoundException {
+    @GetMapping("/employee")
+    public ModelAndView getEmployeeById(@RequestParam(value = "id") int id) throws EmployeeNotFoundException {
         Employee employee = employeeService.getEmployeeById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("id");

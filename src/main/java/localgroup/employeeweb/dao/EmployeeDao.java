@@ -1,7 +1,6 @@
 package localgroup.employeeweb.dao;
 
-import localgroup.employeeweb.dto.Employee;
-import localgroup.employeeweb.dto.Gender;
+import localgroup.employeeweb.entity.Employee;
 import localgroup.employeeweb.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Repository;
 

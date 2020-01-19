@@ -47,7 +47,7 @@ public class HibernateConfig {
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("localgroup.employeeweb.dto");
+        sessionFactory.setPackagesToScan("localgroup.employeeweb.entity");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

@@ -1,6 +1,6 @@
 package localgroup.employeeweb.service;
 
-import localgroup.employeeweb.dto.Employee;
+import localgroup.employeeweb.entity.Employee;
 import localgroup.employeeweb.exception.EmployeeNotFoundException;
 import org.springframework.stereotype.Service;
 
