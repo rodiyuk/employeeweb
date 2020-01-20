@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 public class EmployeeController {
+    private int page;
     private final EmployeeService employeeService;
 
     @Autowired
@@ -27,25 +28,37 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public ModelAndView getAllEmployees() {
-        List<Employee> employees = employeeService.getAllEmployees();
+    public ModelAndView getAllEmployees(@RequestParam(defaultValue = "1") int page) {
+        List<Employee> employees = employeeService.getAllEmployees(page);
+        int countEmployees = employeeService.countEmployees();
+        int countPages = (countEmployees + 9) / 10;
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("employees");
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("countEmployees", countEmployees);
+        modelAndView.addObject("countPages", countPages);
         modelAndView.addObject("employeesList", employees);
+        this.page = page;
         return modelAndView;
     }
 
     @GetMapping("/name")
-    public ModelAndView getEmployeeByName(@RequestParam(value = "name", required = false) String name) throws EmployeeNotFoundException {
-        List<Employee> employees = employeeService.getEmployeeByName(name);
+    public ModelAndView getEmployeeByName(@RequestParam(value = "name", required = false) String name,
+                                          @RequestParam(defaultValue = "1", required = false) int page){
+        List<Employee> employees = employeeService.getEmployeeByName(name, page);
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("name");
+        modelAndView.setViewName("/name");
+        int countEmployees = employees.size();
+        int countPages = (countEmployees + 9) / 10;
+        modelAndView.addObject("page", page);
+        modelAndView.addObject("countEmployees", countEmployees);
+        modelAndView.addObject("countPages", countPages);
         modelAndView.addObject("employeesList", employees);
         return modelAndView;
     }
 
     @GetMapping("/employee")
-    public ModelAndView getEmployeeById(@RequestParam(value = "id") int id) throws EmployeeNotFoundException {
+    public ModelAndView getEmployeeById(@RequestParam(value = "id") int id){
         Employee employee = employeeService.getEmployeeById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("id");
@@ -54,7 +67,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView editPage(@PathVariable("id") int id) throws EmployeeNotFoundException {
+    public ModelAndView editPage(@PathVariable("id") int id){
         Employee employee = employeeService.getEmployeeById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
@@ -63,10 +76,11 @@ public class EmployeeController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee){
+    public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee) {
         employeeService.updateEmployee(employee);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/employees");
+        modelAndView.addObject("page", page);
         return modelAndView;
     }
 
@@ -78,19 +92,24 @@ public class EmployeeController {
     }
 
     @PostMapping("/add")
-    public ModelAndView addEmployee(@ModelAttribute("employee") Employee employee){
+    public ModelAndView addEmployee(@ModelAttribute("employee") Employee employee) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/employees");
+        modelAndView.addObject("page", page);
         employeeService.addEmployee(employee);
         return modelAndView;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteEmployee(@PathVariable("id") int id) throws EmployeeNotFoundException {
+    public ModelAndView deleteEmployee(@PathVariable("id") int id){
         Employee employee = employeeService.getEmployeeById(id);
+        int countEmployees = employeeService.countEmployees();
+        int page = ((countEmployees - 1) % 10 == 0) && countEmployees > 10 && this.page == (countEmployees + 9) / 10 ?
+                this.page - 1 : this.page;
         employeeService.deleteEmployee(employee);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/employees");
+        modelAndView.addObject("page", page);
         return modelAndView;
     }
 }

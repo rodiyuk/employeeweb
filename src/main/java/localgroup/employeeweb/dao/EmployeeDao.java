@@ -9,17 +9,11 @@ import java.util.List;
 @Repository
 public interface EmployeeDao {
     void addEmployee(Employee employee);
-
-    void deleteEmployeeById(Integer id) throws EmployeeNotFoundException;
-
+    void deleteEmployeeById(Integer id) ;
     void deleteEmployee(Employee employee);
-
     void updateEmployee(Employee employee);
-
-    List<Employee> getEmployeeByName(String firstName/*, String lastName*/) throws EmployeeNotFoundException;
-
-    Employee getEmployeeById(Integer employeeId) throws EmployeeNotFoundException;
-
-    List<Employee> getAllEmployees();
-
+    List<Employee> getEmployeeByName(String firstName, int page);
+    Employee getEmployeeById(Integer employeeId);
+    List<Employee> getAllEmployees(int page);
+    int countEmployees();
 }
