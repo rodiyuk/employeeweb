@@ -6,7 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="Entities" value="460577eb-8ed2-4d40-8d20-85ef32bfc6cf" />
+          <factory-entry name="Entities" value="2abe83be-fcff-4e0e-896f-261787a46e20" />
           <factory-entry name="noname-a.xml@0" value="460577eb-8ed2-4d40-8d20-85ef32bfc6cf" />
         </datasource-mapping>
         <naming-strategy-map>
@@ -31,7 +31,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="sessionFactory" value="460577eb-8ed2-4d40-8d20-85ef32bfc6cf" />
+          <unit-entry name="sessionFactory" value="2abe83be-fcff-4e0e-896f-261787a46e20" />
         </datasource-map>
         <naming-strategy-map />
       </configuration>
@@ -83,5 +83,6 @@
     <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.16" level="project" />
     <orderEntry type="library" name="Maven: jakarta.activation:jakarta.activation-api:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.11" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.2.8" level="project" />
   </component>
 </module>

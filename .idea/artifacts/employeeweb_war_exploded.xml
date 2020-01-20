@@ -47,6 +47,7 @@
           <element id="library" level="project" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.16" />
           <element id="library" level="project" name="Maven: jakarta.activation:jakarta.activation-api:1.2.1" />
           <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.11" />
+          <element id="library" level="project" name="Maven: org.postgresql:postgresql:42.2.8" />
         </element>
       </element>
       <element id="directory" name="META-INF">

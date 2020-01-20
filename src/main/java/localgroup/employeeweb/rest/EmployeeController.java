@@ -35,6 +35,15 @@ public class EmployeeController {
         return modelAndView;
     }
 
+    @GetMapping("/name")
+    public ModelAndView getEmployeeByName(@RequestParam(value = "name", required = false) String name) throws EmployeeNotFoundException {
+        List<Employee> employees = employeeService.getEmployeeByName(name);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("name");
+        modelAndView.addObject("employeesList", employees);
+        return modelAndView;
+    }
+
     @GetMapping("/employee")
     public ModelAndView getEmployeeById(@RequestParam(value = "id") int id) throws EmployeeNotFoundException {
         Employee employee = employeeService.getEmployeeById(id);
@@ -84,73 +93,4 @@ public class EmployeeController {
         modelAndView.setViewName("redirect:/employees");
         return modelAndView;
     }
-//    // Создать сотрудника
-//    @PostMapping("/employees")
-//    public Employee addNewEmployee(@Valid @RequestBody Employee employee) {
-//        return (Employee) employeeRepository.save(employee);
-//    }
-
-//    // получить всех сотрудников
-//    @GetMapping("/")
-//    public List getAllEmployees(){
-//        return employeeRepository.findAll();
-//    }
-
-  /*  // Получить запись по id
-    @GetMapping("/employees{id}")
-    public Employee getEmployeeById(@PathVariable(value = "employeeId") Long id) throws Throwable {
-        return (Employee) employeeRepository.findById(id)
-                .orElseThrow(()->new EmployeeNotFoundException(id));
-    }
-
-    // Удалить запись по id
-    @DeleteMapping("/employees/{id}")
-    public ResponseEntity employeeDelete(@PathVariable(value = "employeeId") Long id) throws Throwable {
-        Employee employee = (Employee) employeeRepository.findById(id)
-                .orElseThrow(()->new EmployeeNotFoundException(id));
-
-        employeeRepository.delete(employee);
-        return ResponseEntity.ok().build();
-    }
-
-    // Обновить запись
-    @PutMapping("/employees/{id}")
-    public Employee updateEmployee(@PathVariable(value = "employeeId") Long id,
-                               @Valid @RequestBody Employee employeeDetails) throws Throwable {
-
-        Employee employee = (Employee) employeeRepository.findById(id)
-                .orElseThrow(()->new EmployeeNotFoundException(id));
-
-        employee.setFirstName(employeeDetails.getFirstName());
-        employee.setLastName(employeeDetails.getLastName());
-        employee.setGender(employeeDetails.getGender());
-        employee.setDepartmentId(employeeDetails.getDepartmentId());
-        employee.setJobTitle(employeeDetails.getJobTitle());
-        employee.setBirth_date(employeeDetails.getBirth_date());
-
-        Employee updatedEmployee = (Employee) employeeRepository.save(employee);
-        return updatedEmployee;
-    }*/
-//    private EmployeeService employeeService = new EmployeeService();
-//    private Long idEmployee;
-//    private String firstName;
-//    private String lastName;
-
-
-//    public void employeeDelete(long id) {
-//        employeeService.deleteEmployee(id);
-//    }
-//
-//    public List<Employee> getAllEmployees() {
-//        return employeeService.getAllEmployees();
-//    }
-//
-//    public Employee getEmployeeById(long id) {
-//        return employeeService.getEmployeeById(id);
-//
-//    }
-//
-//    public Employee getEmployeeByName(String firstName, String lastName) {
-//        return employeeService.getEmployeeByName(firstName, lastName);
-//    }
 }

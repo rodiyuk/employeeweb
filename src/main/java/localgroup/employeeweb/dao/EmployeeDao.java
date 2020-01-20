@@ -16,7 +16,7 @@ public interface EmployeeDao {
 
     void updateEmployee(Employee employee);
 
-    Employee getEmployeeByName(String firstName, String lastName) throws EmployeeNotFoundException;
+    List<Employee> getEmployeeByName(String firstName/*, String lastName*/) throws EmployeeNotFoundException;
 
     Employee getEmployeeById(Integer employeeId) throws EmployeeNotFoundException;
 
