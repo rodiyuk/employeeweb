@@ -1,13 +1,14 @@
 package localgroup.employeeweb.rest;
 
 import localgroup.employeeweb.entity.Employee;
-import localgroup.employeeweb.exception.EmployeeNotFoundException;
 import localgroup.employeeweb.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,12 +43,30 @@ public class EmployeeController {
         return modelAndView;
     }
 
-    @GetMapping("/name")
-    public ModelAndView getEmployeeByName(@RequestParam(value = "name", required = false) String name,
-                                          @RequestParam(defaultValue = "1", required = false) int page){
-        List<Employee> employees = employeeService.getEmployeeByName(name, page);
+    @GetMapping("/search")
+    public ModelAndView searchEmployee(@RequestParam(value = "name", required = false) String name,
+                                          @RequestParam(value = "date", required = false) Date date,
+                                          @RequestParam(defaultValue = "1", required = false) int page) {
+        List<Employee> employees = new ArrayList<>();
+        if (name != null) {
+            employees = employeeService.getEmployeeByName(name, page);
+            if(employees.size()==0){
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("name", name);
+                modelAndView.setViewName("notFound");
+                return modelAndView;
+            }
+        } else if (date != null) {
+            employees = employeeService.getEmployeeByDate(date, page);
+            if(employees.size()==0){
+                ModelAndView modelAndView = new ModelAndView();
+                modelAndView.addObject("date", date);
+                modelAndView.setViewName("notFound");
+                return modelAndView;
+            }
+        }
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/name");
+        modelAndView.setViewName("/employees");
         int countEmployees = employees.size();
         int countPages = (countEmployees + 9) / 10;
         modelAndView.addObject("page", page);
@@ -58,8 +77,14 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee")
-    public ModelAndView getEmployeeById(@RequestParam(value = "id") int id){
+    public ModelAndView getEmployeeById(@RequestParam(value = "id") int id) {
         Employee employee = employeeService.getEmployeeById(id);
+        if (employee==null){
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.addObject("id", id);
+            modelAndView.setViewName("notFound");
+            return modelAndView;
+        }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("id");
         modelAndView.addObject("employee", employee);
@@ -67,7 +92,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView editPage(@PathVariable("id") int id){
+    public ModelAndView editPage(@PathVariable("id") int id) {
         Employee employee = employeeService.getEmployeeById(id);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("editPage");
@@ -94,14 +119,16 @@ public class EmployeeController {
     @PostMapping("/add")
     public ModelAndView addEmployee(@ModelAttribute("employee") Employee employee) {
         ModelAndView modelAndView = new ModelAndView();
+        employeeService.addEmployee(employee);
+        int countEmployees = employeeService.countEmployees();
+        int page = (countEmployees + 9) / 10;
         modelAndView.setViewName("redirect:/employees");
         modelAndView.addObject("page", page);
-        employeeService.addEmployee(employee);
         return modelAndView;
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView deleteEmployee(@PathVariable("id") int id){
+    public ModelAndView deleteEmployee(@PathVariable("id") int id) {
         Employee employee = employeeService.getEmployeeById(id);
         int countEmployees = employeeService.countEmployees();
         int page = ((countEmployees - 1) % 10 == 0) && countEmployees > 10 && this.page == (countEmployees + 9) / 10 ?

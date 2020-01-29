@@ -9,6 +9,7 @@ table {
     /*width: 90%;*/
     border: 5px solid #3eadff;
 }
+
 select{
     border: 1px solid #cccccc;
     border-radius: 3px;
@@ -124,6 +125,21 @@ a:active {
     text-shadow: 1px 1px 1px #7F7F7F;
     box-shadow: 3px 3px 15px rgb(15,15,45);
 }
+.canc{
+    width: 110px;
+    text-transform: none;
+    height: 22px;
+    padding-top: 7px;
+    font: bold 20px Georgia, serif;
+    text-align: center;
+    border: 1px solid #cccccc;
+    border-radius: 3px;
+    background: linear-gradient(1deg, rgb(205, 230, 255), rgba(255, 255, 255, 0.9));
+    color: #000000;
+    text-shadow: 1px 1px 1px #7F7F7F;
+    box-shadow: 3px 3px 15px rgb(15,15,45);
+    cursor: pointer;
+}
 .id {
     background: linear-gradient(1deg, rgb(205, 230, 255), rgba(255, 255, 255, 0.9));
     width: 300px;
@@ -136,22 +152,22 @@ a:active {
     box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
   }
 input[type=submit], input[type=reset]{
-    width: auto;
+    width: 250px;
     height: 35px;
     font-size: 24px;
     cursor: pointer;
 }
 
-input[type=submit]:active, select:focus, input[type=reset]:active  {
+input[type=submit]:active, select:active, input[type=reset]:active, .canc:active  {
     transition: 0s;
     background: linear-gradient(1deg, rgb(255, 255, 255), rgba(210, 210, 210, 0.9));
 }
 
-input:hover, select:focus  {
+input:hover, select:hover, .canc:hover  {
     box-shadow: 0 0 15px rgb(155,155,155);
 }
 
-input:focus, select:focus {
+input:focus, select:focus, .canc:focus {
     box-shadow: 0 0 25px rgb(255,255,255);
 }
 .left-side {
@@ -166,5 +182,15 @@ input:focus, select:focus {
 ::-webkit-input-placeholder {
     font: bold 100% Georgia, serif;
     color: rgba(0,0,0,0.2);
+    text-shadow: 0 0;
+}
+:focus::-webkit-input-placeholder, .main:focus::-webkit-input-placeholder {
+    text-indent: 500px;
+    transition: text-indent 0.5s ease;
+}
+
+.main ::-webkit-input-placeholder {
+    font: 80% Georgia, serif;
+    color: rgba(0, 0, 0, 0.12);
     text-shadow: 0 0;
 }
